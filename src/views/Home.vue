@@ -1,14 +1,15 @@
 <template>
   <main class="home">
     <h1>Список вопросов</h1>
-    <ul class="collection with-header quiz-list">
+    <ul class="collection quiz-list">
       <li v-if="loading" class="collection-item">
         <div class="progress">
           <div class="indeterminate"></div>
         </div>
       </li>
       <li v-for="(quiz, index) of quizes" class="collection-item" :key="index">
-        <div>{{ quiz.name }} - <small>({{ quiz.author }})</small>
+        <div>
+          {{ quiz.name }} - <small>({{ quiz.author }})</small>
           <router-link :to="{ path: `/quiz/${quiz.id}` }" class="secondary-content">
             <i class="material-icons">send</i>
           </router-link>

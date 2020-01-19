@@ -3,29 +3,59 @@
         <loader v-if="loading" />
         <div v-else>
           <h1>{{ quiz.name }}</h1>
+          <finish-quiz
+            v-if="isFinished"
+            :results="results"
+            :quiz="quiz"
+          />
+          <active-quiz
+            v-else
+            :answers="quiz.items[activeQuestion].answers"
+            :question="quiz.items[activeQuestion].question"
+            :quiz-length="quiz.items.length"
+            :answer-number="activeQuestion + 1"
+            :state="answerState"
+            @click="clickHandler"
+          />
         </div>
     </div>
 </template>
 
 <script>
 import Loader from '../components/UI/Loader';
+import ActiveQuiz from '../components/Quiz/ActiveQuiz';
+import FinishQuiz from '../components/Quiz/FinishQuiz';
+import { mapGetters } from 'vuex';
+
 export default {
   data: () => ({
-    quiz: null,
     loading: false
   }),
   components: {
-    Loader
+    Loader, ActiveQuiz, FinishQuiz
+  },
+  computed: {
+    ...mapGetters([
+      'quiz',
+      'activeQuestion',
+      'answerState',
+      'isFinished',
+      'results'
+    ])
   },
   async created() {
     this.loading = true;
     try {
       await this.$store.dispatch('fetchQuizById', this.$route.params.id);
-      this.quiz = this.$store.getters.quiz;
     } catch (e) {
       console.error(e)
     }
     this.loading = false
+  },
+  methods: {
+    clickHandler(id) {
+      this.$store.dispatch('quizAnswerClick', id);
+    }
   }
 }
 </script>

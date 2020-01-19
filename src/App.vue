@@ -4,12 +4,14 @@
     <div class="poweredBy"></div>
     <menu-toggle :open="open" @open="openHandler" />
     <drawer :open="open" @change="open = false" />
+    <app-backdrop v-if="open" @click="open = false" />
   </div>
 </template>
 
 <script>
 import MenuToggle from './components/UI/MenuToggle';
 import Drawer from './components/UI/Drawer';
+import AppBackdrop from './components/UI/AppBackdrop';
 
 export default {
   data: () => ({
@@ -17,7 +19,12 @@ export default {
   }),
   components: {
     MenuToggle,
-    Drawer
+    Drawer,
+    AppBackdrop
+  },
+  created() {
+    this.$store.dispatch('autoLogin');
+    this.$store.dispatch('getUserData');
   },
   methods: {
     openHandler() {

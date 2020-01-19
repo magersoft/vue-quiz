@@ -4,17 +4,23 @@
             <li @click="changePageHandler">
               <router-link exact to="/">Список</router-link>
             </li>
-            <li @click="changePageHandler">
+            <li v-if="!token" @click="changePageHandler">
               <router-link to="/login">Авторизация</router-link>
             </li>
-            <li @click="changePageHandler">
+            <li v-if="!!token" @click="changePageHandler">
               <router-link to="/create">Создать тест</router-link>
             </li>
+            <li v-if="!!token" @click="$store.dispatch('logout')">
+              <a href="#">Выйти</a>
+            </li>
         </ul>
+        <div v-if="!!token" class="login">Вы авторизованы: {{ login }}</div>
     </nav>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     open: {
@@ -24,6 +30,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['login', 'token']),
     classes() {
       return {
         ['drawer']: true,
@@ -39,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .drawer {
   display: flex;
   flex-direction: column;
