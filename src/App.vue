@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="layout">
-    <router-view />
+    <main>
+      <router-view />
+    </main>
     <div class="poweredBy"></div>
     <menu-toggle :open="open" @open="openHandler" />
     <drawer :open="open" @change="open = false" />
@@ -53,6 +55,10 @@ export default {
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
+  }
+
+  h1 {
+    text-align: center;
   }
 
   .poweredBy {

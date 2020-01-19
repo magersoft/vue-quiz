@@ -1,22 +1,24 @@
 <template>
-  <main class="home">
-    <h1>Список вопросов</h1>
-    <ul class="collection quiz-list">
-      <li v-if="loading" class="collection-item">
-        <div class="progress">
-          <div class="indeterminate"></div>
-        </div>
-      </li>
-      <li v-for="(quiz, index) of quizes" class="collection-item" :key="index">
-        <div>
-          {{ quiz.name }} - <small>({{ quiz.author }})</small>
-          <router-link :to="{ path: `/quiz/${quiz.id}` }" class="secondary-content">
-            <i class="material-icons">send</i>
-          </router-link>
-        </div>
-      </li>
-    </ul>
-  </main>
+  <div class="quiz-list">
+    <div>
+      <h1>Список вопросов</h1>
+      <ul class="collection">
+        <li v-if="loading" class="collection-item">
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
+        </li>
+        <li v-for="(quiz, index) of quizes" class="collection-item" :key="index">
+          <div>
+            {{ quiz.name }} - <small>({{ quiz.author }})</small>
+            <router-link :to="{ path: `/quiz/${quiz.id}` }" class="secondary-content">
+              <i class="material-icons">send</i>
+            </router-link>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,9 +43,18 @@ export default {
 
 <style lang="scss">
 .quiz-list {
-  width: 600px;
-  margin: 0 auto;
-  color: black;
-  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0 15px;
+
+  > div {
+    margin: 0 auto;
+  }
+
+  ul {
+    color: black;
+    border-radius: 10px;
+  }
 }
 </style>

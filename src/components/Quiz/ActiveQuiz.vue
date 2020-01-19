@@ -51,7 +51,6 @@ export default {
   margin: 0 10px;
   box-sizing: border-box;
   background: rgba(0,0,0,.5);
-  width: 600px;
 }
 
 

@@ -60,12 +60,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .quiz {
   display: flex;
   justify-content: center;
   padding-top: 100px;
   flex-grow: 1;
   width: 100%;
+
+  h1 {
+    color: white;
+    margin-left: 10px;
+    font-size: 3rem;
+  }
 }
 </style>
