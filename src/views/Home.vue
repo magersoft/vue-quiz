@@ -11,9 +11,19 @@
         <li v-for="(quiz, index) of quizes" class="collection-item" :key="index">
           <div>
             {{ quiz.name }} - <small>({{ quiz.author }})</small>
-            <router-link :to="{ path: `/quiz/${quiz.id}` }" class="secondary-content">
-              <i class="material-icons">send</i>
-            </router-link>
+            <div class="secondary-content actions">
+              <i
+                v-if="quiz.author === login"
+                class="material-icons red-text darken-2"
+                style="cursor: pointer"
+                @click="removeQuiz(quiz.id)"
+              >
+                delete
+              </i>
+              <router-link :to="{ path: `/quiz/${quiz.id}` }" class="secondary-content">
+                <i class="material-icons">send</i>
+              </router-link>
+            </div>
           </div>
         </li>
       </ul>
@@ -22,21 +32,29 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'home',
   data: () => ({
-    quizes: null,
     loading: false
   }),
+  computed: {
+    ...mapGetters(['login', 'quizes'])
+  },
   async created() {
     this.loading = true;
     try {
       await this.$store.dispatch('fetchQuizes');
-      this.quizes = this.$store.getters.quizes
     } catch (e) {
       console.error(e);
     }
     this.loading = false;
+  },
+  methods: {
+    ...mapActions({
+      removeQuiz: 'removeQuiz'
+    })
   }
 }
 </script>
@@ -50,6 +68,15 @@ export default {
 
   > div {
     margin: 0 auto;
+  }
+
+  .actions {
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+    i {
+      padding-left: 10px;
+    }
   }
 
   ul {

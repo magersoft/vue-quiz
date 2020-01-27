@@ -33,9 +33,10 @@ export default {
 
 <style lang="scss">
 .menu-toggle {
+  display: none;
   position: fixed;
-  top: 40px;
-  left: 40px;
+  top: 20px;
+  left: 20px;
   font-size: 20px;
   cursor: pointer;
   color: white;
@@ -48,6 +49,12 @@ export default {
 
   &.open {
       left: 320px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .menu-toggle {
+    display: block;
   }
 }
 

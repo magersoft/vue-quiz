@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../../router'
 import Message from '../../utils/Message';
 import { errors, info } from '../../language/ru_RU';
 
@@ -39,19 +40,25 @@ export default {
   autoLogin({ commit, dispatch }) {
     const token = localStorage.getItem('token');
     if (!token) {
-      dispatch('logout');
+      dispatch('autoLogout');
     } else {
       const expirationDate = new Date(localStorage.getItem('expirationDate'));
       if (expirationDate <= new Date()) {
-        dispatch('logout');
+        dispatch('autoLogout');
       } else {
         commit('setToken', token);
       }
     }
   },
-  logout({ commit }) {
+  logout({ dispatch }) {
     const m = new Message(info.SUCCESS_LOGOUT);
     m.call();
+    dispatch('autoLogout');
+    if (router.currentRoute.path !== '/') {
+      router.push('/');
+    }
+  },
+  autoLogout({ commit }) {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('expirationDate');

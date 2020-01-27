@@ -21,5 +21,8 @@ export default {
     state.results = {};
     state.isFinished = false;
     state.answerState = null;
+  },
+  removeQuiz(state, id) {
+    state.quizes = state.quizes.filter(quiz => quiz.id !== id);
   }
 }

@@ -1,14 +1,10 @@
 <template>
     <nav :class="classes">
         <ul>
-            <li @click="changePageHandler">
-              <router-link exact to="/">Список</router-link>
-            </li>
-            <li v-if="!token" @click="changePageHandler">
-              <router-link to="/login">Авторизация</router-link>
-            </li>
-            <li v-if="!!token" @click="changePageHandler">
-              <router-link to="/create">Создать тест</router-link>
+            <li v-for="(link, index) of links" :key="index" @click="changePageHandler">
+              <router-link :exact="link.exact" :to="link.to">
+                {{ link.label }}
+              </router-link>
             </li>
             <li v-if="!!token" @click="$store.dispatch('logout')">
               <a href="#">Выйти</a>
@@ -27,7 +23,8 @@ export default {
       type: Boolean,
       required: true,
       default: false
-    }
+    },
+    links: Array
   },
   computed: {
     ...mapGetters(['login', 'token']),

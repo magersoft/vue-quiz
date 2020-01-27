@@ -25,6 +25,14 @@ export default {
       console.error(e);
     }
   },
+  async removeQuiz({ commit }, id) {
+    try {
+      await axios.delete(`/quizes/${id}.json`);
+      commit('removeQuiz', id);
+    } catch (e) {
+      console.error(e);
+    }
+  },
   quizAnswerClick({ commit, state }, id) {
     if (state.answerState) {
       const key = Object.keys(state.answerState)[0];

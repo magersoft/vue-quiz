@@ -1,28 +1,47 @@
 <template>
   <div id="app" class="layout">
+    <navbar :links="links" />
     <main>
       <router-view />
     </main>
     <div class="poweredBy"></div>
     <menu-toggle :open="open" @open="openHandler" />
-    <drawer :open="open" @change="open = false" />
+    <drawer :links="links" :open="open" @change="open = false" />
     <app-backdrop v-if="open" @click="open = false" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import MenuToggle from './components/UI/MenuToggle';
 import Drawer from './components/UI/Drawer';
 import AppBackdrop from './components/UI/AppBackdrop';
+import Navbar from './components/UI/Navbar';
 
 export default {
   data: () => ({
     open: false
   }),
   components: {
+    Navbar,
     MenuToggle,
     Drawer,
     AppBackdrop
+  },
+  computed: {
+    ...mapGetters(['token']),
+    links() {
+      const links = [
+        { to: '/', label: 'Список', exact: true }
+      ];
+      if (this.token) {
+        links.push({ to: '/create', label: 'Создать тест', exact: false });
+      } else {
+        links.push({ to: '/login', label: 'Авторизация', exact: false })
+      }
+
+      return links;
+    }
   },
   created() {
     this.$store.dispatch('autoLogin');
